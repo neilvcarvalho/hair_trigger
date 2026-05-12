@@ -50,7 +50,7 @@ shared_context "hairtrigger utils" do
   end
 
   def initialize_db
-    if ActiveRecord::VERSION::STRING > "7.0."
+    if ActiveRecord.gem_version > Gem::Version.new("7.0.0")
       ActiveRecord::Base.connection_handler.clear_all_connections!
     else
       ActiveRecord::Base.clear_all_connections!
@@ -85,7 +85,7 @@ shared_context "hairtrigger utils" do
 
   def migrate_db
     ActiveRecord::Migration.verbose = false
-    if ActiveRecord::VERSION::STRING > "7.0."
+    if ActiveRecord.gem_version > Gem::Version.new("7.0.0")
       ActiveRecord::MigrationContext.new(HairTrigger.migration_path).migrate
     else
       ActiveRecord::MigrationContext.new(HairTrigger.migration_path, ActiveRecord::SchemaMigration).migrate
