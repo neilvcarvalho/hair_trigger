@@ -58,7 +58,7 @@ shared_context "hairtrigger utils" do
     config = CONFIGS[adapter.to_s].merge({:adapter => adapter.to_s})
     case adapter
       when :mysql2
-        command = "mysql"
+        command = +"mysql"
         command << " -u #{Shellwords.escape(config['username'])}" if config['username']
         command << " -P #{Shellwords.escape(config['port'])}" if config['port']
         command << " -p#{Shellwords.escape(config['password'])}" if config['password']
@@ -66,7 +66,7 @@ shared_context "hairtrigger utils" do
         ret = `echo "drop database if exists #{Shellwords.escape(config['database'])}; create database #{Shellwords.escape(config['database'])} collate utf8_general_ci;" | #{command} 2>&1`
         raise "error creating database: #{ret}" unless $?.exitstatus == 0
       when :postgresql
-        command = "%s"
+        command = +"%s"
         command = "PGPASSWORD=#{Shellwords.escape(config['password'])} #{command}" if config['password']
         command << " -U #{Shellwords.escape(config['username'])}" if config['username']
         command << " -p #{Shellwords.escape(config['port'])}" if config['port']
